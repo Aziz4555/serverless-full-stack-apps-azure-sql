@@ -20,7 +20,7 @@ jobs:
       with:
         node-version: ${{ env.NODE_VERSION }}
 
-    - name: 'Add depencies'
+    - name: 'Add dependencies'
       shell: pwsh
       run: |
         pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
@@ -41,7 +41,7 @@ jobs:
         npm run build --if-present
         npm run test --if-present
         popd
-        
+
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@v1
       id: fa
