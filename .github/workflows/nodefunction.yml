@@ -20,15 +20,28 @@ jobs:
       with:
         node-version: ${{ env.NODE_VERSION }}
 
-    - name: 'Resolve Project Dependencies Using Npm'
+    - name: 'Add depencies'
       shell: pwsh
       run: |
         pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
         npm install
+        popd
+      
+    - name: 'Check Quality'
+      shell: pwsh
+      run: |
+        pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
         npm run check-quality --if-present
+        popd 
+
+    - name: 'Build'
+      shell: pwsh
+      run: |
+        pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
         npm run build --if-present
         npm run test --if-present
         popd
+        
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@v1
       id: fa
